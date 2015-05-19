@@ -5,7 +5,7 @@ var http      = require('http')
 , fs          = require('fs')
 , gh          = require('./github-crescer')
 , str         = require('./common/String')
-, PORT = process.env.PORT || 666;
+, PORT = process.env.PORT || 666
 , server = http.createServer(
   function(request, response) {
     try {
