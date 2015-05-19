@@ -1,0 +1,31 @@
+{
+  "name": "gh-x9",
+  "version": "0.0.1",
+  "description": "GitHub Fork Scouting",
+  "main": "github-crescer-server.js",
+  "dependencies": {
+    "github": "0.2.3",
+    "httpdispatcher": "0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bernardobrezende/gh-x9.git"
+  },
+  "keywords": [
+    "gh-x9",
+    "x9",
+    "crescer",
+    "projeto",
+    "crescer"
+  ],
+  "author": "Bernardo Bosak de Rezende",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bernardobrezende/gh-x9/issues"
+  },
+  "homepage": "https://github.com/bernardobrezende/gh-x9#readme"
+}
