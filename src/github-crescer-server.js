@@ -22,7 +22,7 @@ dispatcher.setStaticDirname('common');
 dispatcher.setStatic('String.js');
 
 dispatcher.onGet('/', function(req, res) {
-  fs.readFile('./views/index.html', function (err, html) {
+  fs.readFile('views/index.html', function (err, html) {
     if (err) {
       throw err;
     }
