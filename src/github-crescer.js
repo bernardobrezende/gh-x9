@@ -12,7 +12,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: '0b0b6dfd128bfe071b77a87c8422398af4d63de8'
+    token: '0933fd216bd24235abae05e165a12d9819085556'
   });
 
   var fetchGHApi = function(cb) {
@@ -20,7 +20,7 @@ module.exports = (function() {
       throw 'Invalid callback: ' + cb;
     }
     github.repos.getForks(
-      { "user": "cwisoftware", repo: "crescer-2015-1" },
+      { "user": "cwisoftware", repo: "crescer-2015-2" },
       function(err, res) {
 
         var commits = [];

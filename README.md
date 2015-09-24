@@ -2,4 +2,8 @@
 
 ## GitHub X9 - Fork scouting
 
-Check it live [here](http://gh-x9.herokuapp.com/)!
+### Install
+
+`$ npm install`
+`$ cd src`
+`$ node github-crescer-server`
