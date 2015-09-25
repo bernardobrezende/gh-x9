@@ -4,6 +4,6 @@
 
 ### Install
 
-`$ npm install`
-`$ cd src`
-`$ node github-crescer-server`
+`$ npm install`  
+`$ cd src`  
+`$ node github-crescer-server`  
