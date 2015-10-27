@@ -5,6 +5,7 @@ var http      = require('http')
 , fs          = require('fs')
 , gh          = require('./github-crescer')
 , str         = require('./common/String')
+, open 		  = require('open')
 , PORT = process.env.PORT || 3000
 , server = http.createServer(
   function(request, response) {
@@ -45,3 +46,5 @@ dispatcher.onGet('/commit', function(req, res) {
 server.listen(PORT, function() {
   console.log('Rodando na porta %s...', PORT);
 });
+
+open("http://localhost:3000/");
