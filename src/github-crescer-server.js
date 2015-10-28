@@ -47,4 +47,4 @@ server.listen(PORT, function() {
   console.log('Rodando na porta %s...', PORT);
 });
 
-open("http://localhost:3000/");
+open("http://localhost:" + PORT);
