@@ -27,9 +27,9 @@ module.exports = (function() {
       { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
       function(err, res) {
 
-        var forksActivity = [], commitsRequests = [];
+        var commitsRequests = [];
         if (err) console.error('error getForks: ' + err);
-        if (typeof res === 'undefined') cb(forksActivity);
+        if (typeof res === 'undefined') cb([]);
 
         res.sort(function(a, b) {
           return new Date(b.pushed_at) - new Date(a.pushed_at);
