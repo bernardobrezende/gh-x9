@@ -3,12 +3,12 @@
 module.exports = (function() {
 
   var GitHubApi = require('github')
-  , str = require('./common/String');
-
-  var github = new GitHubApi({
+  , async = require('async')
+  , github = new GitHubApi({
     version: "3.0.0",
     timeout: 10000
   });
+  require('./common/String');
 
   github.authenticate({
     type: 'oauth',
@@ -19,18 +19,23 @@ module.exports = (function() {
     if (typeof cb !== 'function') {
       throw 'Invalid callback: ' + cb;
     }
+
+    var CRESCER_REPO_NAME = 'crescer-2015-2';
+
     github.repos.getForks(
-      { "user": "cwisoftware", repo: "crescer-2015-2" },
+      { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
       function(err, res) {
 
-        var commits = [];
+        var commitsRequests = [];
         if (err) console.error('error getForks: ' + err);
-        if (typeof res === 'undefined') cb(commits);;
+        if (typeof res === 'undefined') cb([]);
 
         res.sort(function(a, b) {
           return new Date(b.pushed_at) - new Date(a.pushed_at);
         });
         res.forEach(function(forkAluno) {
+
+          //console.log(forkAluno);
 
           var diff = new Date() - new Date(forkAluno.pushed_at);
           var inSeconds = Math.ceil(diff / 1000);
@@ -47,11 +52,30 @@ module.exports = (function() {
             ultimoCommit = String.format("{0} min atrás", inMinutes);
           }
 
-          commits.push({ avatar_url: forkAluno.owner.avatar_url, url_fork: forkAluno.html_url, usuario: forkAluno.owner.login, ultimo_commit: ultimoCommit });
-
+          (function() {
+            commitsRequests.push(
+              function(callb) {
+                github.repos.getCommits({ user: forkAluno.owner.login, repo: CRESCER_REPO_NAME }, function(err, commits) {
+                  var activity = {
+                    avatar_url: forkAluno.owner.avatar_url,
+                    url_fork: forkAluno.html_url,
+                    usuario: forkAluno.owner.login,
+                    ultimo_commit: {
+                      timestamp: ultimoCommit,
+                      mensagem: commits[0].commit.message,
+                      url: commits[0].html_url
+                    }
+                  };
+                  callb(null, activity);
+                });
+              }
+            );
+          })();
         });
-
-        cb(commits);
+        
+        async.parallel(commitsRequests, function(err, data) {
+          cb(data);
+        })
       }
     );
   };
