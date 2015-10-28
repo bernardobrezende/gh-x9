@@ -4,12 +4,11 @@ module.exports = (function() {
 
   var GitHubApi = require('github')
   , async = require('async')
-  , str = require('./common/String');
-
-  var github = new GitHubApi({
+  , github = new GitHubApi({
     version: "3.0.0",
     timeout: 10000
   });
+  require('./common/String');
 
   github.authenticate({
     type: 'oauth',
