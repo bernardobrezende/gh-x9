@@ -46,5 +46,3 @@ dispatcher.onGet('/commit', function(req, res) {
 server.listen(PORT, function() {
   console.log('Rodando na porta %s...', PORT);
 });
-
-open('http://localhost:' + PORT);
