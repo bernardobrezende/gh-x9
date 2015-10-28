@@ -20,8 +20,11 @@ module.exports = (function() {
     if (typeof cb !== 'function') {
       throw 'Invalid callback: ' + cb;
     }
+
+    var CRESCER_REPO_NAME = 'crescer-2015-2';
+
     github.repos.getForks(
-      { "user": "cwisoftware", repo: "crescer-2015-2" },
+      { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
       function(err, res) {
 
         var forksActivity = [], commitsRequests = [];
@@ -53,7 +56,7 @@ module.exports = (function() {
           (function() {
             commitsRequests.push(
               function(callb) {
-                github.repos.getCommits({ user: forkAluno.owner.login, repo: "crescer-2015-2" }, function(err, commits) {
+                github.repos.getCommits({ user: forkAluno.owner.login, repo: CRESCER_REPO_NAME }, function(err, commits) {
                   var activity = {
                     avatar_url: forkAluno.owner.avatar_url,
                     url_fork: forkAluno.html_url,
