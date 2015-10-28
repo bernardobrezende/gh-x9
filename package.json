@@ -6,7 +6,12 @@
   "dependencies": {
     "async": "^1.5.0",
     "github": "0.2.3",
+<<<<<<< HEAD
     "httpdispatcher": "0.4.0"
+=======
+    "httpdispatcher": "0.4.0",
+    "open": "0.0.5"
+>>>>>>> 66b6e13... fix(open): change open to dependency, and not devDependency.
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
