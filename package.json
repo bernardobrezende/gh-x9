@@ -6,16 +6,8 @@
   "dependencies": {
     "async": "^1.5.0",
     "github": "0.2.3",
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "httpdispatcher": "0.4.0"
-=======
     "httpdispatcher": "0.4.0",
     "open": "0.0.5"
->>>>>>> 66b6e13... fix(open): change open to dependency, and not devDependency.
-=======
-    "httpdispatcher": "0.4.0"
->>>>>>> 57a1566... fix(open): remove open module.
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
