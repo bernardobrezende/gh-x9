@@ -5,9 +5,9 @@ var http      = require('http')
 , fs          = require('fs')
 , gh          = require('./github-crescer')
 , str         = require('./common/String')
-, open 		  = require('open')
-, PORT = process.env.PORT || 3000
-, server = http.createServer(
+, open 		    = require('open')
+, PORT        = process.env.PORT || 3000
+, server      = http.createServer(
   function(request, response) {
     try {
       console.log(request.url);
@@ -47,4 +47,4 @@ server.listen(PORT, function() {
   console.log('Rodando na porta %s...', PORT);
 });
 
-open("http://localhost:" + PORT);
+open('http://localhost:' + PORT);
