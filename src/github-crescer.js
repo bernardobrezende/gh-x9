@@ -12,7 +12,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: '0933fd216bd24235abae05e165a12d9819085556'
+    token: '52e1634fca760986f7b27da82400f7173882bec0'
   });
 
   var fetchGHApi = function(cb) {
