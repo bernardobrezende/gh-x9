@@ -4,6 +4,7 @@
   "description": "GitHub Fork Scouting",
   "main": "github-crescer-server.js",
   "dependencies": {
+    "async": "^1.5.0",
     "github": "0.2.3",
     "httpdispatcher": "0.4.0"
   },
