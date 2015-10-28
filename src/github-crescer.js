@@ -11,8 +11,9 @@ module.exports = (function() {
   });
 
   github.authenticate({
-    type: 'oauth',
-    token: 'a557e81bbc0df867107d3b77aca6f90b2564f13f'
+    type: 'basic',
+    username: 'gh-x9',
+    password: '123456789@a'
   });
 
   var fetchGHApi = function(cb) {
