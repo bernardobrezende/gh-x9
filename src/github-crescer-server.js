@@ -21,6 +21,7 @@ var http      = require('http')
 
 dispatcher.setStaticDirname('web');
 
+
 // CSS
 dispatcher.setStatic('bower_components/normalize-css/normalize.css');
 dispatcher.setStatic('bower_components/bootstrap/dist/css/bootstrap.min.css');

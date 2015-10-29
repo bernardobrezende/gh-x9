@@ -34,7 +34,7 @@
             <div class="panel-heading">
               <div class="row">
                 <div class="col-xs-6 col-sm-6 col-md-9 col-lg-10 text-left">
-                  Repositórios
+                  <strong>Repositórios</strong>
                 </div>
                 <div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 text-center">
                   <div class="loading" ng-show="isRunning">
@@ -52,7 +52,7 @@
                 <th>Último commit</th>
               </thead>
               <tbody>
-                <tr ng-repeat="commit in lastCommits">
+                <tr ng-repeat="commit in lastCommits" ng-class="{ 'danger': commit.requer_atencao }" >
                   <td>
                     <img ng-src="{{ commit.avatar_url }}" class="avatar">
                   </td>

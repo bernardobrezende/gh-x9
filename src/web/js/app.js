@@ -21,7 +21,8 @@ angular.module('GHX9', [])
 
       $http.get('/commit')
         .then(function(resp){
-          //[] i.avatar_url, i.url_fork, i.usuario, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem
+          //[] i.avatar_url, i.url_fork, i.usuario, i.requer_atencao, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem
+
           $scope.lastCommits = resp.data;
           $scope.lastUpdated = new Date().toLocaleString('pt-BR');
           $scope.isRunning = false;

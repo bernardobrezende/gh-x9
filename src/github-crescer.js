@@ -13,7 +13,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: '8553573f90bc04d2762da7988dddff6feb5b5f58'
+    token: ''
   });
 
   var fetchGHApi = function(cb) {
@@ -62,6 +62,7 @@ module.exports = (function() {
                     avatar_url: forkAluno.owner.avatar_url,
                     url_fork: forkAluno.html_url,
                     usuario: forkAluno.owner.login,
+                    requer_atencao: inHours > 24,
                     ultimo_commit: {
                       timestamp: ultimoCommit,
                       mensagem: commits[0].commit.message,
