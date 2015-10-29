@@ -76,7 +76,7 @@ module.exports = (function() {
                       mensagem: commits[0].commit.message,
                       url: commits[0].html_url
                     },
-                    idle: getDateDiffToNow(new Date(commits[0].commit.author.date)).inHours > 24
+                    idle: diff.inHours > 24
                   };
                   callb(null, activity);
                 });
