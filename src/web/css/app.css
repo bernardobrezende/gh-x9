@@ -1,0 +1,12 @@
+#tabela-commits img {
+  height: 60;
+  width: 60;
+}
+.label-atualizacao {
+  margin: 20 0;
+  display: inline-block;
+}
+
+div.loading img {
+  height: 60px;
+}

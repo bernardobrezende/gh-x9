@@ -19,11 +19,26 @@ var http      = require('http')
 
 );
 
-dispatcher.setStaticDirname('common');
-dispatcher.setStatic('String.js');
+dispatcher.setStaticDirname('web');
+
+// CSS
+dispatcher.setStatic('bower_components/normalize-css/normalize.css');
+dispatcher.setStatic('bower_components/bootstrap/dist/css/bootstrap.min.css');
+
+// JS
+dispatcher.setStatic('bower_components/jquery/dist/jquery.min.js');
+dispatcher.setStatic('bower_components/bootstrap/dist/js/bootstrap.min.js');
+dispatcher.setStatic('bower_components/angular/angular.min.js');
+dispatcher.setStatic('js/app.js');
+
+// CSS
+dispatcher.setStatic('css/app.css');
+
+// RESOURCES
+dispatcher.setStatic('resources/img/mario.gif');
 
 dispatcher.onGet('/', function(req, res) {
-  fs.readFile(__dirname + '/views/index.html', function (err, html) {
+  fs.readFile(__dirname + '/web/views/index.html', function (err, html) {
     if (err) {
       throw err;
     }
