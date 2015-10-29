@@ -35,8 +35,6 @@ module.exports = (function() {
         });
         res.forEach(function(forkAluno) {
 
-          //console.log(forkAluno);
-
           var diff = new Date() - new Date(forkAluno.pushed_at);
           var inSeconds = Math.ceil(diff / 1000);
           var inMinutes = Math.ceil(inSeconds / 60);
