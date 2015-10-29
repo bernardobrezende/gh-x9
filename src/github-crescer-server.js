@@ -35,7 +35,9 @@ dispatcher.setStatic('js/app.js');
 dispatcher.setStatic('css/app.css');
 
 // RESOURCES
-dispatcher.setStatic('resources/img/mario.gif');
+dispatcher.setStatic('resources/img/megaman.gif');
+dispatcher.setStatic('resources/img/github-megaman.jpg');
+dispatcher.setStatic('resources/img/favicon.ico');
 
 dispatcher.onGet('/', function(req, res) {
   fs.readFile(__dirname + '/web/views/index.html', function (err, html) {

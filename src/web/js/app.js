@@ -25,7 +25,6 @@ angular.module('GHX9', [])
           $scope.lastCommits = resp.data;
           $scope.lastUpdated = new Date().toLocaleString('pt-BR');
           $scope.isRunning = false;
-          console.log($scope.isRunning);
         },function(err){
 
         });

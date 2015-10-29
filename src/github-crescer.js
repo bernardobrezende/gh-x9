@@ -13,7 +13,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: '0c3acf2a1fcae0d83762dd04cb20d48c9fa155a9'
+    token: '8553573f90bc04d2762da7988dddff6feb5b5f58'
   });
 
   var fetchGHApi = function(cb) {
@@ -34,7 +34,7 @@ module.exports = (function() {
         res.sort(function(a, b) {
           return new Date(b.pushed_at) - new Date(a.pushed_at);
         });
-        
+
         res.forEach(function(forkAluno) {
 
           //console.log(forkAluno);

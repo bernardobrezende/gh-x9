@@ -3,7 +3,7 @@
 ### Install
 
 `$ npm install`  
-
+`$ bower install`
 ### Run
 
 `$ cd src`  
