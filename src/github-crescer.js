@@ -15,6 +15,23 @@ module.exports = (function() {
     token: 'a557e81bbc0df867107d3b77aca6f90b2564f13f'
   });
 
+  var getDateDiffToNow = function(otherDate) {
+
+    var diff = new Date() - otherDate
+    , secs = Math.ceil(diff / 1000)
+    , mins = Math.ceil(secs / 60)
+    , hours = Math.ceil(mins / 60)
+    , days = Math.ceil(hours / 24);
+
+    return {
+      inSeconds: secs,
+      inMinutes: mins,
+      inHours: hours,
+      inDays: days
+    };
+
+  };
+
   var fetchGHApi = function(cb) {
     if (typeof cb !== 'function') {
       throw 'Invalid callback: ' + cb;
@@ -35,19 +52,15 @@ module.exports = (function() {
         });
         res.forEach(function(forkAluno) {
 
-          var diff = new Date() - new Date(forkAluno.pushed_at);
-          var inSeconds = Math.ceil(diff / 1000);
-          var inMinutes = Math.ceil(inSeconds / 60);
-          var inHours = Math.ceil(inMinutes / 60);
-          var inDays = Math.ceil(inHours / 24);
+          var diff = getDateDiffToNow(new Date(forkAluno.pushed_at));
           var ultimoCommit = '';
 
-          if (inHours > 24) {
-            ultimoCommit = String.format("{0} dias atrás", inDays);
-          } else if (inMinutes > 60) {
-            ultimoCommit = String.format("{0} hrs atrás", inHours);
-          } else if (inMinutes < 60) {
-            ultimoCommit = String.format("{0} min atrás", inMinutes);
+          if (diff.inHours > 24) {
+            ultimoCommit = String.format("{0} dias atrás", diff.inDays);
+          } else if (diff.inMinutes > 60) {
+            ultimoCommit = String.format("{0} hrs atrás", diff.inHours);
+          } else if (diff.inMinutes < 60) {
+            ultimoCommit = String.format("{0} min atrás", diff.inMinutes);
           }
 
           (function() {
@@ -62,7 +75,8 @@ module.exports = (function() {
                       timestamp: ultimoCommit,
                       mensagem: commits[0].commit.message,
                       url: commits[0].html_url
-                    }
+                    },
+                    idle: getDateDiffToNow(new Date(commits[0].commit.author.date)).inHours > 24
                   };
                   callb(null, activity);
                 });
