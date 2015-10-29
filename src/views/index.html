@@ -47,7 +47,7 @@
     <script type="text/javascript" charset="utf-8">
       $(function() {
         var isRunning = false;
-        var ROW_HTML = '<tr><td><img src={0}></td><td><a target=\'_blank\' href=\'{1}\'>{2}</a></td><td>{3}</td> <td><a target=\'_blank\' href=\'{4}\'>{5}</a></td></tr>';
+        var ROW_HTML = '<tr class="{0}"><td><img src={1}></td><td><a target=\'_blank\' href=\'{2}\'>{3}</a></td><td>{4}</td> <td><a target=\'_blank\' href=\'{5}\'>{6}</a></td></tr>';
         var polling = function() {
           if (isRunning === false) {
             isRunning = true;
@@ -55,7 +55,7 @@
             .success(function(res) {
               var novoHTML = '';
               res.forEach(function(i) {
-                novoHTML += String.format(ROW_HTML, i.avatar_url, i.url_fork, i.usuario, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem);
+                novoHTML += String.format(ROW_HTML, !!i.idle ? 'danger' : '', i.avatar_url, i.url_fork, i.usuario, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem);
               });
               $('#tabela-commits > tbody').html(novoHTML);
               $('#timestamp-atualizacao').html(new Date().toLocaleString('pt-BR'));
