@@ -18,10 +18,10 @@ module.exports = (function() {
   var getDateDiffToNow = function(otherDate) {
 
     var diff = new Date() - otherDate
-    , secs = Math.ceil(diff / 1000)
-    , mins = Math.ceil(secs / 60)
-    , hours = Math.ceil(mins / 60)
-    , days = Math.ceil(hours / 24);
+    , secs = Math.floor(diff / 1000)
+    , mins = Math.floor(secs / 60)
+    , hours = Math.floor(mins / 60)
+    , days = Math.floor(hours / 24);
 
     return {
       inSeconds: secs,
@@ -55,11 +55,17 @@ module.exports = (function() {
           var diff = getDateDiffToNow(new Date(forkAluno.pushed_at));
           var ultimoCommit = '';
 
-          if (diff.inHours > 24) {
+          console.log(forkAluno.owner.login, diff);
+
+          if (diff.inDays > 1) {
             ultimoCommit = String.format("{0} dias atrás", diff.inDays);
-          } else if (diff.inMinutes > 60) {
+          } else if (diff.inDays === 1 ) {
+            ultimoCommit = String.format("1 dia atrás");
+          } else if (diff.inMinutes > 100) { // 01:40
             ultimoCommit = String.format("{0} hrs atrás", diff.inHours);
-          } else if (diff.inMinutes < 60) {
+          } else if (diff.inMinutes > 40) { // 00:40
+            ultimoCommit = "1 hr atrás";
+          } else {
             ultimoCommit = String.format("{0} min atrás", diff.inMinutes);
           }
 
