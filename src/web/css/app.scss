@@ -1,0 +1,70 @@
+/* VARIÁVEIS */
+$blue: #4682B4;
+$black: #2d3538;
+$light-green: #18bc9c;
+
+
+header {
+  height: 120px;
+  padding: 5px 20px;
+
+}
+
+#logo {
+  height: 100%;
+}
+
+#tabela-commits img {
+  height: 80px;
+  width: 80px;
+}
+
+
+
+.label-atualizacao {
+  margin: 20 0;
+  display: inline-block;
+}
+
+.loading {
+  padding: 3px;
+  width: 100%;
+  z-index: 1000;
+
+  img {
+    height: 30px;
+  }
+
+  span {
+    color: $blue;
+    padding-right: 20px;
+  }
+}
+
+.avatar {
+  border-radius: 5px;
+  border: 2px solid $black;
+}
+
+#container-repositorios {
+  min-height: 1024px;
+  padding-top: 20px;
+  background-color: $black;
+}
+
+.commits-anteriores {
+  font-size: 12px;
+
+  a {
+    text-decoration: none;
+    color: $black;
+
+    &:link, &:visited, &:hover, &:active {
+      text-decoration: none;
+    }
+
+    &:hover {
+      color: $light-green;
+    }
+  }
+}

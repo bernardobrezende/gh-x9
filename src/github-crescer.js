@@ -13,7 +13,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: ''
+    token: '4a897282302cce5eed71f15704cf5132a86fe255'
   });
 
   var fetchGHApi = function(cb) {
@@ -67,7 +67,17 @@ module.exports = (function() {
                       timestamp: ultimoCommit,
                       mensagem: commits[0].commit.message,
                       url: commits[0].html_url
-                    }
+                    },
+                    commits_anteriores: [
+                      {
+                        mensagem: commits[1].commit.message,
+                        url: commits[1].html_url
+                      },
+                      {
+                        mensagem: commits[2].commit.message,
+                        url: commits[2].html_url
+                      }
+                    ]
                   };
                   callb(null, activity);
                 });

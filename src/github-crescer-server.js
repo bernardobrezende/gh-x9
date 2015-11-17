@@ -24,7 +24,8 @@ dispatcher.setStaticDirname('web');
 
 // CSS
 dispatcher.setStatic('bower_components/normalize-css/normalize.css');
-dispatcher.setStatic('bower_components/bootstrap/dist/css/bootstrap.min.css');
+dispatcher.setStatic('css/bootstrap.custom.min.css');
+dispatcher.setStatic('css/app.min.css');
 
 // JS
 dispatcher.setStatic('bower_components/jquery/dist/jquery.min.js');
@@ -32,10 +33,8 @@ dispatcher.setStatic('bower_components/bootstrap/dist/js/bootstrap.min.js');
 dispatcher.setStatic('bower_components/angular/angular.min.js');
 dispatcher.setStatic('js/app.js');
 
-// CSS
-dispatcher.setStatic('css/app.css');
-
 // RESOURCES
+dispatcher.setStatic('resources/img/bg-dark.gif');
 dispatcher.setStatic('resources/img/megaman.gif');
 dispatcher.setStatic('resources/img/github-megaman.jpg');
 dispatcher.setStatic('resources/img/favicon.ico');

@@ -6,7 +6,7 @@ angular.module('GHX9', [])
 
   $scope.isRunning = false;
   $scope.lastUpdated = '';
-  $scope.lastCommits = [];
+  $scope.commits = [];
 
   $scope.start = function() {
     pooling();
@@ -23,7 +23,7 @@ angular.module('GHX9', [])
         .then(function(resp){
           //[] i.avatar_url, i.url_fork, i.usuario, i.requer_atencao, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem
 
-          $scope.lastCommits = resp.data;
+          $scope.commits = resp.data;
           $scope.lastUpdated = new Date().toLocaleString('pt-BR');
           $scope.isRunning = false;
         },function(err){
