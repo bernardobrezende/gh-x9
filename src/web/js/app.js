@@ -22,9 +22,9 @@ angular.module('GHX9', [])
 
       $http.get('/commit')
         .then(function(resp){
-          
-          if(resp.error) {
-            $scope.error = resp.error.desc;
+          console.log(resp);
+          if(resp.data.error) {
+            $scope.error = resp.data.desc;
           }
           else {
             $scope.error = null;
