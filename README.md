@@ -9,8 +9,8 @@
 Open two CMD window, then:
 
 CMD Window 1:
-`$ gulp`
+* `$ gulp`
 
 CMD Window 2:
-`$ cd src`  
-`$ node github-crescer-server`  
+* `$ cd src`  
+* `$ node github-crescer-server`  
