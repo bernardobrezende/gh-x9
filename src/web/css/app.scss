@@ -68,3 +68,17 @@ header {
     }
   }
 }
+
+#error {
+  background-color: red;
+  color: white;
+  padding: 10px;
+
+  i {
+    font-size: 50px;
+  }
+
+  .error-desc {
+    font-style: italic;
+  }
+}

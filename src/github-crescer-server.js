@@ -1,46 +1,22 @@
 'use strict';
 
 var http      = require('http')
-, dispatcher  = require('httpdispatcher')
+, express     = require('express')
 , fs          = require('fs')
 , gh          = require('./github-crescer')
 , str         = require('./common/String')
 , open 		    = require('open')
-, PORT        = process.env.PORT || 3000
-, server      = http.createServer(
-  function(request, response) {
-    try {
-      console.log(request.url);
-      dispatcher.dispatch(request, response);
-    } catch(err) {
-      console.log('Server error: ', err);
-    }
-  }
+, path        = require('path')
+, PORT        = process.env.PORT || 3000;
 
-);
+var WEB_FOLDER  = path.join(__dirname, "web");
 
-dispatcher.setStaticDirname('web');
+var appServer = express();
 
+appServer.use(express.static(WEB_FOLDER));
 
-// CSS
-dispatcher.setStatic('bower_components/normalize-css/normalize.css');
-dispatcher.setStatic('css/bootstrap.custom.min.css');
-dispatcher.setStatic('css/app.min.css');
-
-// JS
-dispatcher.setStatic('bower_components/jquery/dist/jquery.min.js');
-dispatcher.setStatic('bower_components/bootstrap/dist/js/bootstrap.min.js');
-dispatcher.setStatic('bower_components/angular/angular.min.js');
-dispatcher.setStatic('js/app.js');
-
-// RESOURCES
-dispatcher.setStatic('resources/img/bg-dark.gif');
-dispatcher.setStatic('resources/img/megaman.gif');
-dispatcher.setStatic('resources/img/github-megaman.jpg');
-dispatcher.setStatic('resources/img/favicon.ico');
-
-dispatcher.onGet('/', function(req, res) {
-  fs.readFile(__dirname + '/web/views/index.html', function (err, html) {
+appServer.get('/', function(req, res) {
+  fs.readFile(WEB_FOLDER + '/views/index.html', function (err, html) {
     if (err) {
       throw err;
     }
@@ -50,18 +26,27 @@ dispatcher.onGet('/', function(req, res) {
   });
 });
 
-dispatcher.onGet('/commit', function(req, res) {
+appServer.get('/commit', function(req, res) {
   res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+
   gh.fetch(
-    // callback
     function(ghResponse) {
       res.end(JSON.stringify(ghResponse));
+    },
+    function(error) {
+      var e = {
+        "error": true,
+        "desc": error
+      };
+      res.end(JSON.stringify(e));
     }
   );
 });
 
-server.listen(PORT, function() {
-  console.log('Rodando na porta %s...', PORT);
-});
+var server = appServer.listen(PORT, function () {
 
-open('http://localhost:' + PORT);
+  var address = 'http://localhost:' + PORT;
+
+  console.log('GH-X9 running under %s', address);
+  open(address);
+});

@@ -13,12 +13,12 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: '4a897282302cce5eed71f15704cf5132a86fe255'
+    token: 'e2b01380e367fd9f6c060c53a98141670e337b47'
   });
 
-  var fetchGHApi = function(cb) {
-    if (typeof cb !== 'function') {
-      throw 'Invalid callback: ' + cb;
+  var fetchGHApi = function(onSuccess, onError) {
+    if (typeof onSuccess !== 'function') {
+      throw 'Invalid callback: ' + onSuccess;
     }
 
     var CRESCER_REPO_NAME = 'crescer-2015-2';
@@ -28,16 +28,24 @@ module.exports = (function() {
       function(err, res) {
 
         var commitsRequests = [];
-        if (err) console.error('error getForks: ' + err);
-        if (typeof res === 'undefined') cb([]);
+
+
+        if (err) {
+          console.error('error getForks: ' + err);
+          onError(err);
+          return;
+        }
+
+        if (typeof res === 'undefined') {
+          onSuccess([]);
+          return;
+        }
 
         res.sort(function(a, b) {
           return new Date(b.pushed_at) - new Date(a.pushed_at);
         });
 
         res.forEach(function(forkAluno) {
-
-          //console.log(forkAluno);
 
           var diff = new Date() - new Date(forkAluno.pushed_at);
           var inSeconds = Math.ceil(diff / 1000);
@@ -87,7 +95,7 @@ module.exports = (function() {
         });
 
         async.parallel(commitsRequests, function(err, data) {
-          cb(data);
+          onSuccess(data);
         })
       }
     );

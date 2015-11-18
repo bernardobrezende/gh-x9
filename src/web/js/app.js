@@ -7,6 +7,7 @@ angular.module('GHX9', [])
   $scope.isRunning = false;
   $scope.lastUpdated = '';
   $scope.commits = [];
+  $scope.error = null;
 
   $scope.start = function() {
     pooling();
@@ -21,13 +22,19 @@ angular.module('GHX9', [])
 
       $http.get('/commit')
         .then(function(resp){
-          //[] i.avatar_url, i.url_fork, i.usuario, i.requer_atencao, i.ultimo_commit.timestamp, i.ultimo_commit.url, i.ultimo_commit.mensagem
+          
+          if(resp.error) {
+            $scope.error = resp.error.desc;
+          }
+          else {
+            $scope.error = null;
+            $scope.commits = resp.data;
+          }
 
-          $scope.commits = resp.data;
           $scope.lastUpdated = new Date().toLocaleString('pt-BR');
           $scope.isRunning = false;
-        },function(err){
-
+        }, function(err) {
+          $scope.error = err;
         });
     }
   }
