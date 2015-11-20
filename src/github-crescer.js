@@ -15,7 +15,7 @@ module.exports = (function() {
 
   github.authenticate({
     type: 'oauth',
-    token: ''
+    token: '123'
   });
 
   var fetchGHApi = function(onSuccess, onError) {
