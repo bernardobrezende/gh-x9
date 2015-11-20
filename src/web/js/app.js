@@ -6,17 +6,15 @@ angular.module('GHX9', [])
 
   $scope.isRunning = false;
   $scope.lastUpdated = '';
-  $scope.commits = [];
+  $scope.repositories = [];
   $scope.error = null;
 
   $scope.start = function() {
     pooling();
     $interval(pooling, TIME_REFRESH_INTERVAL);
-  }
+  };
 
-
-  function pooling (){
-
+  function pooling () {
     if ($scope.isRunning === false) {
       $scope.isRunning = true;
 
@@ -28,7 +26,7 @@ angular.module('GHX9', [])
           }
           else {
             $scope.error = null;
-            $scope.commits = resp.data;
+            $scope.repositories = resp.data;
           }
 
           $scope.lastUpdated = new Date().toLocaleString('pt-BR');
@@ -37,6 +35,19 @@ angular.module('GHX9', [])
           $scope.error = err;
         });
     }
-  }
+  };
 
-}]);
+}])
+.filter('timestamp', function() {
+  return function(pushedTimestamp) {
+    if (pushedTimestamp.inHours > 24) {
+      lastCommit = pushedTimestamp.inDays + " dias atrás";
+    } else if (pushedTimestamp.inMinutes > 60) {
+      lastCommit = pushedTimestamp.inHours + " hrs atrás";
+    } else if (pushedTimestamp.inMinutes < 60) {
+      lastCommit = pushedTimestamp.inMinutes + " min atrás";
+    }
+
+    return lastCommit;
+  };
+});

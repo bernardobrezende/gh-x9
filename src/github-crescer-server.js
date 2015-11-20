@@ -38,6 +38,8 @@ appServer.get('/commit', function(req, res) {
         "error": true,
         "desc": error
       };
+
+      console.log(e);
       res.end(JSON.stringify(e));
     }
   );

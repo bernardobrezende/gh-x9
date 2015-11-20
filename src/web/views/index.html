@@ -66,23 +66,24 @@
                   <th>Commits</th>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="commit in commits" ng-class="{ 'danger': commit.requer_atencao }" class="animated fadeInUp" >
+                  <tr ng-repeat="rep in repositories" ng-class="{ 'danger': rep.warning }" class="animated fadeInUp" >
                     <td>
-                      <img ng-src="{{ commit.avatar_url }}" class="avatar">
+                      <img ng-src="{{ rep.avatar_url }}" class="avatar">
                     </td>
                     <td>
-                      <a target='_blank' href='{{ commit.url_fork }}'>{{ commit.usuario }}</a>
+                      <a target='_blank' href='{{ rep.url_fork }}'>{{ rep.user }}</a>
                     </td>
                     <td>
-                      {{ commit.ultimo_commit.timestamp }}
+                      {{ rep.pushed_timestamp | timestamp }} 
                     </td>
                     <td>
-                      Último Commit: <a target='_blank' href='{{ commit.ultimo_commit.url }}'>{{ commit.ultimo_commit.mensagem }}</a>
+                      Último Commit: <a target='_blank' href='{{ rep.last_commits[0].url }}'>{{ rep.last_commits[0].message }}</a>
                       <br />
                       <span class="commits-anteriores">
                         Commits Anteriores:
                         <ul>
-                          <li ng-repeat="outroCommit in commit.commits_anteriores"><a target='_blank' href='{{ outroCommit.ultimo_commit.url }}'>{{ outroCommit.mensagem }}</a></li>
+                          <li><a target='_blank' href='{{ rep.last_commits[1].url }}'>{{ rep.last_commits[1].message }}</a></li>
+                          <li><a target='_blank' href='{{ rep.last_commits[2].url }}'>{{ rep.last_commits[2].message }}</a></li>
                         </ul>
                       </span>
                     </td>
