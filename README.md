@@ -6,8 +6,8 @@
 `$ bower install`
 
 ### Configure
-1 - Register a new application on [github](https://github.com/settings/applications/new).\s\s
-2 - Create the following environment variables:\s\s
+1 - Register a new application on [github](https://github.com/settings/applications/new).
+2 - Create the following environment variables:
   * `GH_X9_PORT`: the server port (Ex: `3000`).
   * `GH_X9_URL`: the server url (Ex: `http://localhost:3000`).
   * `GH_X9_CLIENT_ID`: the github client id from app created on step 1.
