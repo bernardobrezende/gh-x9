@@ -19,13 +19,6 @@ header {
   width: 80px;
 }
 
-
-
-.label-atualizacao {
-  margin: 20 0;
-  display: inline-block;
-}
-
 .loading {
   padding: 3px;
   width: 100%;
@@ -74,7 +67,7 @@ header {
   color: white;
   padding: 10px;
 
-  i {
+  #error-icon {
     font-size: 50px;
   }
 

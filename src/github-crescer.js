@@ -13,10 +13,12 @@ module.exports = (function() {
     timeout: 10000
   });
 
-  github.authenticate({
-    type: 'oauth',
-    token: '123'
-  });
+  var authenticate = function(token) {
+    github.authenticate({
+      type: 'oauth',
+      token: token
+    });
+  };
 
   var fetchGHApi = function(onSuccess, onError) {
     if (typeof onSuccess !== 'function') {
@@ -119,6 +121,9 @@ module.exports = (function() {
   };
 
 
-  return { fetch: fetchGHApi };
+  return {
+    authenticate: authenticate,
+    fetch: fetchGHApi
+  };
 
 })();
