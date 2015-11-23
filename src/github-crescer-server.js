@@ -111,21 +111,20 @@ function fetchGhApi(accessToken, onSuccess, onError) {
         onSuccess(JSON.stringify(ghResponse));
       },
       function(error) {
-        var e = {
-          "error": true,
-          "desc": error
-        };
-        onError(JSON.stringify(e));
+        onError(JSON.stringify({
+          error: true,
+          message: error.message,
+          code: error.code,
+          require_login: error.code === 401
+        }));
       }
     );
   }
   else {
     onError(JSON.stringify({
       error: true,
-      desc: {
-        require_login: true,
-        message: 'Efetue o login para continuar.'
-      }
+      require_login: true,
+      message: 'Efetue o login para continuar.'
     }));
   }
 }

@@ -22,7 +22,7 @@ angular.module('GHX9', [])
         .then(function(resp){
           console.log(resp);
           if(resp.data.error) {
-            $scope.error = resp.data.desc;
+            $scope.error = resp.data;
           }
           else {
             $scope.error = null;
