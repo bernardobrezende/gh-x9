@@ -37,7 +37,7 @@ module.exports = (function() {
       throw 'Invalid callback: ' + cb;
     }
 
-    var CRESCER_REPO_NAME = 'crescer-2015-2';
+    var CRESCER_REPO_NAME = 'crescer-2016-1';
 
     github.repos.getForks(
       { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
