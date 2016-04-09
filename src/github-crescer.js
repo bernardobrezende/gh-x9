@@ -2,7 +2,7 @@
 
 module.exports = (function() {
 
-  var CRESCER_REPO_NAME = 'crescer-2015-2';
+  var CRESCER_REPO_NAME = 'crescer-2016-1';
 
   var GitHubApi = require('github')
         , async = require('async')
