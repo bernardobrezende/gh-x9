@@ -2,103 +2,130 @@
 
 module.exports = (function() {
 
+  var CRESCER_REPO_NAME = 'crescer-2016-1';
+
   var GitHubApi = require('github')
   , async = require('async')
-  , github = new GitHubApi({
+  , date = require('./common/Date');
+
+  var github = new GitHubApi({
     version: "3.0.0",
     timeout: 10000
   });
+
   require('./common/String');
 
-  github.authenticate({
-    type: 'basic',
-    username: 'gh-x9',
-    password: '123456789@a'
-  });
-
-  var getDateDiffToNow = function(otherDate) {
-
-    var diff = new Date() - otherDate
-    , secs = Math.floor(diff / 1000)
-    , mins = Math.floor(secs / 60)
-    , hours = Math.floor(mins / 60)
-    , days = Math.floor(hours / 24);
-
-    return {
-      inSeconds: secs,
-      inMinutes: mins,
-      inHours: hours,
-      inDays: days
-    };
-
+  var authenticate = function(token) {
+    github.authenticate({
+      type: 'oauth',
+      token: token
+    });
   };
 
-  var fetchGHApi = function(cb) {
-    if (typeof cb !== 'function') {
-      throw 'Invalid callback: ' + cb;
+  var fetchGHApi = function(onSuccess, onError) {
+    if (typeof onSuccess !== 'function') {
+      throw 'Invalid callback: ' + onSuccess;
     }
 
-    var CRESCER_REPO_NAME = 'crescer-2016-1';
-
-    github.repos.getForks(
-      { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
-      function(err, res) {
-
+    getForks(function(err, res) {
         var commitsRequests = [];
-        if (err) console.error('error getForks: ' + err);
-        if (typeof res === 'undefined') cb([]);
 
-        res.sort(function(a, b) {
-          return new Date(b.pushed_at) - new Date(a.pushed_at);
-        });
-        res.forEach(function(forkAluno) {
+        if (err) {
+          console.error('error getForks: ' + err);
+          onError(err);
+          return;
+        }
 
-          var diff = getDateDiffToNow(new Date(forkAluno.pushed_at));
-          var ultimoCommit = '';
+        if (typeof res === 'undefined') {
+          onSuccess([]);
+          return;
+        }
 
-          console.log(forkAluno.owner.login, diff);
+        sortByPushedDate(res);
 
-          if (diff.inDays > 1) {
-            ultimoCommit = String.format("{0} dias atrás", diff.inDays);
-          } else if (diff.inDays === 1 ) {
-            ultimoCommit = String.format("1 dia atrás");
-          } else if (diff.inMinutes > 100) { // 01:40
-            ultimoCommit = String.format("{0} hrs atrás", diff.inHours);
-          } else if (diff.inMinutes > 40) { // 00:40
-            ultimoCommit = "1 hr atrás";
-          } else {
-            ultimoCommit = String.format("{0} min atrás", diff.inMinutes);
-          }
-
+        res.forEach(function(fork) {
           (function() {
             commitsRequests.push(
-              function(callb) {
-                github.repos.getCommits({ user: forkAluno.owner.login, repo: CRESCER_REPO_NAME }, function(err, commits) {
-                  var activity = {
-                    avatar_url: forkAluno.owner.avatar_url,
-                    url_fork: forkAluno.html_url,
-                    usuario: forkAluno.owner.login,
-                    ultimo_commit: {
-                      timestamp: ultimoCommit,
-                      mensagem: commits[0].commit.message,
-                      url: commits[0].html_url
-                    },
-                    idle: diff.inHours > 24
-                  };
-                  callb(null, activity);
+              function(onSuccess) {
+                getCommits(fork, onSuccess, function(err){
+                  console.error('error getCommits: ' + err);
+                  onError(err);
+                  return;
                 });
               }
             );
           })();
         });
-        
+
         async.parallel(commitsRequests, function(err, data) {
-          cb(data);
+          if(err) {
+            console.log('error async.parallel: ' + err);
+            onError(err);
+            return;
+          }
+          onSuccess(data);
         })
       }
     );
   };
 
-  return { fetch: fetchGHApi };
+  function getCommits(fork, onSuccess, onError) {
+    var params = { user: fork.owner.login, repo: CRESCER_REPO_NAME };
+    github.repos.getCommits(params, function(err, commits) {
+      if(err) {
+        console.error('error getCommits: ' + err);
+        onError(err);
+        return;
+      }
+
+      var activity = buildActivity(fork, commits);
+      onSuccess(null, activity);
+    });
+  };
+
+  function sortByPushedDate(forks) {
+    forks.sort(function(a, b) {
+      return new Date(b.pushed_at) - new Date(a.pushed_at);
+    });
+  };
+
+  function getForks(callBack) {
+    github.repos.getForks(
+      { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
+      callBack);
+  };
+
+  function buildActivity(fork, commits) {
+    var timestamp = date.difference(new Date(fork.pushed_at), new Date());
+
+    return {
+      avatar_url: fork.owner.avatar_url,
+      url_fork: fork.html_url,
+      user: fork.owner.login,
+      warning: timestamp.inDays > 0,
+      pushed_date: new Date(fork.pushed_at),
+      pushed_timestamp: timestamp,
+      last_commits: [
+        {
+          message: commits[0].commit.message,
+          url: commits[0].html_url
+        },
+        {
+          message: commits[1].commit.message,
+          url: commits[1].html_url
+        },
+        {
+          message: commits[2].commit.message,
+          url: commits[2].html_url
+        }
+      ]
+    };
+  };
+
+
+  return {
+    authenticate: authenticate,
+    fetch: fetchGHApi
+  };
 
 })();

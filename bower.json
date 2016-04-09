@@ -1,0 +1,33 @@
+{
+  "name": "GH-X9",
+  "description": "GitHub Fork Scouting",
+  "main": "github-crescer-server.js",
+  "authors": [
+    "Bernardo Bosak de Rezende"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "gh-x9",
+    "x9",
+    "crescer",
+    "projeto",
+    "crescer"
+  ],
+  "homepage": "https://github.com/benhurott/gh-x9",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "animate.css": "animate-css#~3.4.0",
+    "bootstrap": "~3.3.5",
+    "font-awesome": "~4.4.0",
+    "jquery": "~2.1.4",
+    "normalize-css": "~3.0.3"
+  }
+}
