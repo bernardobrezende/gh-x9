@@ -5,13 +5,15 @@ module.exports = (function() {
   var CRESCER_REPO_NAME = 'crescer-2016-1';
 
   var GitHubApi = require('github')
-        , async = require('async')
-        , date = require('./common/Date');
+  , async = require('async')
+  , date = require('./common/Date');
 
   var github = new GitHubApi({
     version: "3.0.0",
     timeout: 10000
   });
+
+  require('./common/String');
 
   var authenticate = function(token) {
     github.authenticate({
