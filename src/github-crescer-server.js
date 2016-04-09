@@ -132,7 +132,7 @@ function fetchGhApi(accessToken, onSuccess, onError) {
 }
 
 /*** START SERVER ***/
-var server = appServer.listen(configs.server.port, function () {
+var server = appServer.listen(process.env.PORT || configs.server.port || 3000, function () {
   console.log('GH-X9 running undex %s', configs.server.base_url);
   open(configs.server.base_url);
 });
