@@ -16,9 +16,11 @@ console.log(configs);
 console.log('===== /CONFIGURATIONS =====');
 
 var WEB_FOLDER  = './web';
+var COMMON_FOLDER  = './common';
 var appServer = express();
 appServer.use(cookieParser());
 appServer.use(express.static(WEB_FOLDER));
+appServer.use(express.static(COMMON_FOLDER));
 
 /*** HOME ***/
 appServer.get('/', function(req, res) {

@@ -40,14 +40,17 @@ angular.module('GHX9', [])
 }])
 .filter('timestamp', function() {
   return function(pushedTimestamp) {
-    if (pushedTimestamp.inHours > 24) {
-      lastCommit = pushedTimestamp.inDays + " dias atrás";
-    } else if (pushedTimestamp.inMinutes > 60) {
-      lastCommit = pushedTimestamp.inHours + " hrs atrás";
-    } else if (pushedTimestamp.inMinutes < 60) {
-      lastCommit = pushedTimestamp.inMinutes + " min atrás";
+    if (pushedTimestamp.inDays > 1) {
+      lastCommit = String.format("{0} dias atrás", pushedTimestamp.inDays);
+    } else if (pushedTimestamp.inDays === 1 ) {
+      lastCommit = String.format("1 dia atrás");
+    } else if (pushedTimestamp.inMinutes > 100) { // 01:40
+      lastCommit = String.format("{0} hrs atrás", pushedTimestamp.inHours);
+    } else if (pushedTimestamp.inMinutes > 40) { // 00:40
+      lastCommit = "1 hr atrás";
+    } else {
+      lastCommit = String.format("{0} min atrás", pushedTimestamp.inMinutes);
     }
-
     return lastCommit;
   };
 });
