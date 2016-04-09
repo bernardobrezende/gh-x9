@@ -3,10 +3,12 @@
 module.exports = (function(){
 
   // define the server port.
-  var PORT = process.env.GH_X9_PORT || 3000;
+  var PORT = process.env.PORT || process.env.GH_X9_PORT || 3000;
 
   // define the server url
   var BASE_URL = process.env.GH_X9_URL || 'http://localhost:' + PORT;
+
+  console.log('GH_X9_CLIENT_ID', process.env.GH_X9_CLIENT_ID);
 
   return {
     server: {
