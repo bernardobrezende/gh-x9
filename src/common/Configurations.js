@@ -8,8 +8,6 @@ module.exports = (function(){
   // define the server url
   var BASE_URL = process.env.GH_X9_URL || 'http://localhost:' + PORT;
 
-  console.log('GH_X9_CLIENT_ID', process.env.GH_X9_CLIENT_ID);
-
   return {
     server: {
       base_url: BASE_URL,
