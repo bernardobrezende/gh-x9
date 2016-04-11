@@ -96,30 +96,25 @@ module.exports = (function() {
   };
 
   function buildCommitStats(commits) {
-    var feat_count = 0, fix_count = 0, refactor_count = 0, merge_count = 0, test_count = 0;
-        
+    var stats = {
+      feat: 0,
+      fix: 0,
+      refactor: 0,
+      merge: 0,
+      test: 0
+    };
+
     commits.forEach(function(c) {
-      if (c.commit.message.toLowerCase().indexOf('feat') > -1) {
-        feat_count++;
-      } else if (c.commit.message.toLowerCase().indexOf('fix') > -1) {
-        fix_count++;
-      } else if (c.commit.message.toLowerCase().indexOf('refactor') > -1) {
-        refactor_count++;
-      } else if (c.commit.message.toLowerCase().indexOf('merge') > -1) {
-        merge_count++;
-      } else if (c.commit.message.toLowerCase().indexOf('test') > -1) {
-        test_count++;
+      for (var prop in stats) {
+        if (c.commit.message.toLowerCase().indexOf(prop) > -1) {
+          stats[prop]++;
+        }
       }
     });
 
-    return {
-      all: commits.length,
-      features: feat_count,
-      fixes: fix_count,
-      refactor: refactor_count,
-      merge: merge_count,
-      test: test_count
-    };
+    stats.all = commits.length;
+
+    return stats;
   };
 
   function buildActivity(fork, commits) {
