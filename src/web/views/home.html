@@ -71,21 +71,33 @@
               </div>
               <table id="tabela-commits" class="table table-striped table-hover table-condensed">
                 <thead>
-                  <th></th>
                   <th>Usuário</th>
-                  <th class="col-md-2 col-sm-3">Última aparição</th>
+                  <th>Última aparição</th>
+                  <th>Estatísticas</th>
                   <th class="col-md-8 col-sm-7">Commits</th>
                 </thead>
                 <tbody>
                   <tr ng-repeat="rep in repositories" ng-class="{ 'danger': rep.warning }" class="animated bounceIn" >
                     <td>
-                      <img ng-src="{{ rep.avatar_url }}" class="avatar">
-                    </td>
-                    <td>
-                      <a target='_blank' href='{{ rep.url_fork }}'>{{ rep.user }}</a>
+                      <a target='_blank' href='{{ rep.url_fork }}'>
+                        <img ng-src="{{ rep.avatar_url }}" class="avatar"><br>
+                        {{ rep.user }}
+                      </a>
                     </td>
                     <td>
                       {{ rep.pushed_timestamp | timestamp }}
+                    </td>
+                    <td>
+                      <span class="commits-anteriores">
+                        Últimos 30 commits
+                        <ul>
+                          <li>Feature: {{ rep.commits_stats.features }}</li>
+                          <li>Fix: {{ rep.commits_stats.fixes }}</li>
+                          <li>Refactory: {{ rep.commits_stats.refactor }}</li>
+                          <li>Merge: {{ rep.commits_stats.merge }}</li>
+                          <li>Test: {{ rep.commits_stats.test }}</li>
+                        </ul>
+                      </span>
                     </td>
                     <td>
                       Último Commit: <a target='_blank' href='{{ rep.last_commits[0].url }}'>{{ rep.last_commits[0].message }}</a>

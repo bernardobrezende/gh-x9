@@ -95,6 +95,33 @@ module.exports = (function() {
       callBack);
   };
 
+  function buildCommitStats(commits) {
+    var feat_count = 0, fix_count = 0, refactor_count = 0, merge_count = 0, test_count = 0;
+        
+    commits.forEach(function(c) {
+      if (c.commit.message.toLowerCase().indexOf('feat') > -1) {
+        feat_count++;
+      } else if (c.commit.message.toLowerCase().indexOf('fix') > -1) {
+        fix_count++;
+      } else if (c.commit.message.toLowerCase().indexOf('refactor') > -1) {
+        refactor_count++;
+      } else if (c.commit.message.toLowerCase().indexOf('merge') > -1) {
+        merge_count++;
+      } else if (c.commit.message.toLowerCase().indexOf('test') > -1) {
+        test_count++;
+      }
+    });
+
+    return {
+      all: commits.length,
+      features: feat_count,
+      fixes: fix_count,
+      refactor: refactor_count,
+      merge: merge_count,
+      test: test_count
+    };
+  };
+
   function buildActivity(fork, commits) {
     var timestamp = date.difference(new Date(fork.pushed_at), new Date());
 
@@ -105,6 +132,7 @@ module.exports = (function() {
       warning: timestamp.inDays > 0,
       pushed_date: new Date(fork.pushed_at),
       pushed_timestamp: timestamp,
+      commits_stats: buildCommitStats(commits),
       last_commits: [
         {
           message: commits[0].commit.message,
