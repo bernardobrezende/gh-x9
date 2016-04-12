@@ -29,7 +29,7 @@ angular.module('GHX9', [])
             $scope.repositories = resp.data;
           }
 
-          $scope.lastUpdated = new Date().toLocaleString('pt-BR');
+          $scope.lastUpdated = new Date();
           $scope.isRunning = false;
         }, function(err) {
           $scope.error = err;
