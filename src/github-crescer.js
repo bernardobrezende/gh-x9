@@ -102,6 +102,28 @@ module.exports = (function() {
       callBack);
   };
 
+  function buildCommitStats(commits) {
+    var stats = {
+      feat: 0,
+      fix: 0,
+      refactor: 0,
+      merge: 0,
+      test: 0
+    };
+
+    commits.forEach(function(c) {
+      for (var prop in stats) {
+        if (c.commit.message.toLowerCase().indexOf(prop) > -1) {
+          stats[prop]++;
+        }
+      }
+    });
+
+    stats.all = commits.length;
+
+    return stats;
+  };
+
   function buildActivity(fork, commits) {
     var timestamp = date.difference(new Date(fork.pushed_at), new Date());
 
@@ -112,6 +134,7 @@ module.exports = (function() {
       warning: timestamp.inDays > 0,
       pushed_date: new Date(fork.pushed_at),
       pushed_timestamp: timestamp,
+      commits_stats: buildCommitStats(commits),
       last_commits: [
         {
           message: commits[0].commit.message,
