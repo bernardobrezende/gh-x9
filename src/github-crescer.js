@@ -6,7 +6,8 @@ module.exports = (function() {
 
   var GitHubApi = require('github')
   , async = require('async')
-  , date = require('./common/Date');
+  , date = require('./common/Date')
+  , ghx9rc = require('./common/gh-x9rc');
 
   var github = new GitHubApi({
     version: "3.0.0",
@@ -43,7 +44,13 @@ module.exports = (function() {
 
         sortByPushedDate(res);
 
+        // remove ignored users
+        res = res.filter(function(fork) {
+          return ghx9rc.ignore_users.join(',').indexOf(fork.owner.login) === -1 ? fork : undefined;
+        });
+
         res.forEach(function(fork) {
+          
           (function() {
             commitsRequests.push(
               function(onSuccess) {
