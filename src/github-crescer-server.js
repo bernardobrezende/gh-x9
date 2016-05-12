@@ -86,9 +86,6 @@ appServer.get(configs.github.redirect_uri.relative, function(req, res){
           }
         }, function(err, r, responseBody) {
           var login = JSON.parse(responseBody).login;
-          console.log(login);
-          console.log(ghx9rc.allowed_users);
-          console.log(ghx9rc.allowed_users.indexOf(login));
           if (ghx9rc.allowed_users.indexOf(login) !== -1) {
             res.cookie('gh-x9-auth', JSON.parse(body).access_token);
             res.redirect('/');  
@@ -150,6 +147,6 @@ function fetchGhApi(accessToken, onSuccess, onError) {
 
 /*** START SERVER ***/
 var server = appServer.listen(process.env.PORT || configs.server.port || 3000, function () {
-  console.log('GH-X9 running undex %s', configs.server.base_url);
+  console.log('GH-X9 running under %s', configs.server.base_url);
   open(configs.server.base_url);
 });
