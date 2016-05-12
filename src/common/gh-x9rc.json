@@ -1,4 +1,5 @@
 {
   "ignore_users": [ ],
-  "allowed_users": [ ]
+  "allowed_users": [ ],
+  "main_repository": ""
 }

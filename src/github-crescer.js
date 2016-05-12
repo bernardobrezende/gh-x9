@@ -2,12 +2,12 @@
 
 module.exports = (function() {
 
-  var CRESCER_REPO_NAME = 'crescer-2016-1';
-
   var GitHubApi = require('github')
   , async = require('async')
   , date = require('./common/Date')
   , ghx9rc = require('./common/gh-x9rc');
+
+  var CRESCER_REPO_NAME = ghx9rc.main_repository || 'crescer-2016-1';
 
   var github = new GitHubApi({
     version: "3.0.0",
