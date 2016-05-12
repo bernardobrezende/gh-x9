@@ -9,7 +9,8 @@ var
 , str          = require('./common/String')
 , configs      = require('./common/Configurations')
 , open 		     = require('open')
-, path         = require('path');
+, path         = require('path')
+, ghx9rc       = require('./common/gh-x9rc');
 
 console.log('===== CONFIGURATIONS =====');
 console.log(configs);
@@ -41,8 +42,6 @@ appServer.get('/commit', function(req, res) {
 
   fetchGhApi(token, onSuccess, onError);
 });
-
-
 
 /*** AUTH ***/
 appServer.get('/github-auth', function(req, res){
@@ -79,9 +78,24 @@ appServer.get(configs.github.redirect_uri.relative, function(req, res){
         res.end();
       }
       else {
-        res.cookie('gh-x9-auth', JSON.parse(body).access_token);
-        res.redirect('/');
-        res.end();
+        // obtendo usuário logado para verificar se está na lista dos permitidos
+        request({
+          url: 'https://api.github.com/user?access_token=' + JSON.parse(body).access_token,
+          headers: {
+            'User-Agent': 'gh-x9'
+          }
+        }, function(err, r, responseBody) {
+          var login = JSON.parse(responseBody).login;
+          if (ghx9rc.allowed_users.indexOf(login) !== -1) {
+            res.cookie('gh-x9-auth', JSON.parse(body).access_token);
+            res.redirect('/');  
+            res.end();
+          } else {
+            res.status(401);
+            sendView(WEB_FOLDER + '/views/401.html', req, res);
+          }
+        });
+        
       }
     };
 
@@ -133,6 +147,6 @@ function fetchGhApi(accessToken, onSuccess, onError) {
 
 /*** START SERVER ***/
 var server = appServer.listen(process.env.PORT || configs.server.port || 3000, function () {
-  console.log('GH-X9 running undex %s', configs.server.base_url);
+  console.log('GH-X9 running under %s', configs.server.base_url);
   open(configs.server.base_url);
 });
