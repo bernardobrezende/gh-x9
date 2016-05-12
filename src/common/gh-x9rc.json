@@ -7,5 +7,10 @@
     "nunes-andre",
     "carlosreinheimer",
     "nonnemacher"
-  ]
+  ],
+  "allowed_users": [ 
+    "bernardobrezende",
+    "fabriciorissetto"
+  ],
+  "main_repository": "crescer-2016-1"
 }
