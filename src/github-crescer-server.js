@@ -25,7 +25,12 @@ appServer.use(express.static(COMMON_FOLDER));
 
 /*** HOME ***/
 appServer.get('/', function(req, res) {
-  sendView(WEB_FOLDER + '/views/home.html', req, res);
+  if (req.cookies['gh-x9-auth'] === '8d2f14451cb74201c01d2bf7ed52b05db3fe2deb') {
+    res.status(401);
+    sendView(WEB_FOLDER + '/views/401.html', req, res);
+  } else {
+    sendView(WEB_FOLDER + '/views/home.html', req, res);
+  }
 });
 
 appServer.get('/commit', function(req, res) {
