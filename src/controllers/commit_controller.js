@@ -6,6 +6,10 @@ const GitHub            = require('../models/github').GitHub
   , StringExtensions    = require('../common/String')
   , express             = require('express')
 
+const _createErrorJSON = (error, require_login, code = 500, message) => {
+  return JSON.stringify({ error, require_login, code, message })
+}
+
 exports.CommitController = class CommitController {
   
   constructor() {
@@ -22,27 +26,23 @@ exports.CommitController = class CommitController {
     // TODO: extrair o nome deste cookie para constante
     var token = req.cookies['gh-x9-v2-auth'];
     if(!!token) {
-      this.github.authenticate(token)
-      this.fetch()
-        .then(r => {
-          res.end(JSON.stringify(r));
-        })
-        .catch(error => {
-          console.error(error)
-          res.end(JSON.stringify({
-            error: true,
-            message: error.message,
-            code: error.code,
-            require_login: error.code === 401 
-          }))
-        })
+      this.github.getUser(token).then(l => {
+        if (ghx9rc.allowed_users.indexOf(l.login) === -1) {
+          return res.end(_createErrorJSON(true, true, 401, 'Efetue o login para continuar.'))
+        }
+        this.github.authenticate(token)
+        this.fetch()
+          .then(r => {
+            res.end(JSON.stringify(r));
+          })
+          .catch(error => {
+            console.error(error)
+            res.end(_createErrorJSON(true, error.code === 401, error.code, error.message))
+          })
+      })
     }
     else {
-      res.end(JSON.stringify({
-        error: true,
-        require_login: true,
-        message: 'Efetue o login para continuar.'
-      }));
+      res.end(_createErrorJSON(true, true, 401, 'Efetue o login para continuar.'))
     }
   }
 
