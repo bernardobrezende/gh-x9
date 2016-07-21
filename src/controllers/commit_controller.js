@@ -5,7 +5,6 @@ const GitHub            = require('../models/github').GitHub
   , ghx9rc              = require('../common/gh-x9rc')
   , StringExtensions    = require('../common/String')
   , express             = require('express')
-  , fs                  = require('fs')
 
 exports.CommitController = class CommitController {
   
