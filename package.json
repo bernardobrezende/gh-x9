@@ -25,6 +25,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd ./src/ && node github-crescer-server.js",
     "postinstall": "bower install"
   },
   "repository": {
