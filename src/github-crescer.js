@@ -2,104 +2,49 @@
 
 module.exports = (function() {
 
-  var GitHubApi = require('github')
-  , async = require('async')
+  var GitHub = require('./models/github').GitHub
   , date = require('./common/Date')
   , ghx9rc = require('./common/gh-x9rc');
-
-  var CRESCER_REPO_NAME = ghx9rc.main_repository || 'crescer-2016-1';
-
-  var github = new GitHubApi({
-    version: "3.0.0",
-    timeout: 10000
-  });
-
   require('./common/String');
 
-  var authenticate = function(token) {
-    github.authenticate({
-      type: 'oauth',
-      token: token
-    });
-  };
+  var CRESCER_REPO_NAME = ghx9rc.main_repository || 'crescer-2016-1';
+  let github = new GitHub()
 
-  var fetchGHApi = function(onSuccess, onError) {
-    if (typeof onSuccess !== 'function') {
-      throw 'Invalid callback: ' + onSuccess;
-    }
-
-    getForks(function(err, res) {
-        var commitsRequests = [];
-
-        if (err) {
-          console.error('error getForks: ' + err);
-          onError(err);
-          return;
-        }
-
+  var fetchGHApi = function() {
+    return new Promise((resolve, reject) => {
+      github.getForks('cwisoftware', CRESCER_REPO_NAME).then(res => {
         if (typeof res === 'undefined') {
-          onSuccess([]);
-          return;
+          return resolve([])
         }
+
+        var commitsRequests = []
 
         sortByPushedDate(res);
-
         // remove ignored users
         res = res.filter(function(fork) {
           return ghx9rc.ignore_users.join(',').indexOf(fork.owner.login) === -1 ? fork : undefined;
         });
-
+        // TODO: usar map direto
         res.forEach(function(fork) {
-          
-          (function() {
-            commitsRequests.push(
-              function(onSuccess) {
-                getCommits(fork, onSuccess, function(err){
-                  console.error('error getCommits: ' + err);
-                  onError(err);
-                  return;
-                });
-              }
-            );
-          })();
+          commitsRequests.push(github.getCommits(fork.owner.login, CRESCER_REPO_NAME))
         });
 
-        async.parallel(commitsRequests, function(err, data) {
-          if(err) {
-            console.log('error async.parallel: ' + err);
-            onError(err);
-            return;
-          }
-          onSuccess(data);
+        Promise.all(commitsRequests).then(values => {
+          // res => array de todos os forks
+          // values => array de arrays, cada posição é o array de commits
+          // batemos pelo índice para vincular o fork aos commits
+          // ex: values[0] são os commits do fork res[0]
+          resolve(res.map((v,i) => buildActivity(v, values[i])))
         })
-      }
-    );
-  };
-
-  function getCommits(fork, onSuccess, onError) {
-    var params = { user: fork.owner.login, repo: CRESCER_REPO_NAME };
-    github.repos.getCommits(params, function(err, commits) {
-      if(err) {
-        console.error('error getCommits: ' + err);
-        onError(err);
-        return;
-      }
-
-      var activity = buildActivity(fork, commits);
-      onSuccess(null, activity);
-    });
+      })
+      .catch(err => reject(err))
+    })
   };
 
   function sortByPushedDate(forks) {
     forks.sort(function(a, b) {
       return new Date(b.pushed_at) - new Date(a.pushed_at);
     });
-  };
-
-  function getForks(callBack) {
-    github.repos.getForks(
-      { "user": "cwisoftware", repo: CRESCER_REPO_NAME },
-      callBack);
   };
 
   function buildCommitStats(commits) {
@@ -152,9 +97,8 @@ module.exports = (function() {
     };
   };
 
-
   return {
-    authenticate: authenticate,
+    authenticate: token => github.authenticate(token),
     fetch: fetchGHApi
   };
 
