@@ -8,12 +8,11 @@ if (!String.format) {
       return typeof args[number] != 'undefined'
         ? args[number]
         : match
-      ;
-    });
-  };
-
-  if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-    module.exports = String.format;
+    })
   }
 
-};
+  if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = String.format
+  }
+
+}

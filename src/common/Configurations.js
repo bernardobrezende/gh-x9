@@ -3,7 +3,7 @@
 module.exports = (function() {
 
   const PORT = process.env.PORT || process.env.GH_X9_PORT || 3000
-  const BASE_URL = process.env.GH_X9_URL || `http://localhost:${PORT}`;
+  const BASE_URL = process.env.GH_X9_URL || `http://localhost:${PORT}`
 
   return {
     server: {
@@ -21,5 +21,5 @@ module.exports = (function() {
       scope: [],
       state: process.env.GH_X9_STATE
     }
-  };
-})();
+  }
+})()

@@ -62,19 +62,19 @@ exports.CommitController = class CommitController {
         refactor: 0,
         merge: 0,
         test: 0
-      };
+      }
 
       commits.forEach(function(c) {
         for (var prop in stats) {
           if (c.commit.message.toLowerCase().indexOf(prop) > -1) {
-            stats[prop]++;
+            stats[prop]++
           }
         }
-      });
+      })
 
-      stats.all = commits.length;
+      stats.all = commits.length
 
-      return stats;
+      return stats
     };
 
     function buildActivity(fork, commits) {
