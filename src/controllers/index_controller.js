@@ -5,7 +5,7 @@ const
   , fs    = require('fs')
 
 // TODO: jogar para uma classe helper (ou controller base)
-const _sendView = (viewName, req, res) => {
+const _sendView = (req, res, viewName) => {
   fs.readFile(viewName, function (err, html) {
     if (err) {
       throw err
@@ -25,6 +25,6 @@ exports.IndexController = class IndexController {
 
   // Actions
   index(req, res) {
-    _sendView('./web/views/home.html', req, res)
+    _sendView(req, res, './web/views/home.html')
   }
 }

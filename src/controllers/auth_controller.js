@@ -9,7 +9,7 @@ const
   , GitHub    = require('../models/github').GitHub
 
 // TODO: jogar para uma classe helper (ou controller base)
-const _sendView = (viewName, req, res) => {
+const _sendView = (req, res, viewName) => {
   fs.readFile(viewName, function (err, html) {
     if (err) {
       throw err
@@ -46,7 +46,7 @@ exports.AuthController = class AuthController {
             res.end()
           } else {
             res.status(401)
-            _sendView('./web/views/401.html', req, res)
+            _sendView(req, res, './web/views/401.html')
           }
         })
       })
