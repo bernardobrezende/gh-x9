@@ -39,7 +39,7 @@ exports.AuthController = class AuthController {
     const code = req.query.code;
     if (code) {
       this.github.getAccessToken(code).then(b => {
-        this.github.getUser(req.cookies['gh-x9-v2-auth']).then(l => {
+        this.github.getUser(b.access_token).then(l => {
           if (ghx9rc.allowed_users.indexOf(l.login) !== -1) {
             res.cookie('gh-x9-v2-auth', b.access_token)
             res.redirect('/')
