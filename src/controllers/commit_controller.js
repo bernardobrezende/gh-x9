@@ -56,7 +56,7 @@ exports.CommitController = class CommitController {
     };
 
     function buildCommitStats(commits) {
-      var stats = {
+      let stats = {
         feat: 0,
         fix: 0,
         refactor: 0,
