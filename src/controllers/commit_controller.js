@@ -6,6 +6,7 @@ const GitHub            = require('../models/github').GitHub
   , StringExtensions    = require('../common/String')
   , express             = require('express')
 
+// TODO: extrair para controller (base)
 const _createErrorJSON = (error, require_login, code = 500, message) => {
   return JSON.stringify({ error, require_login, code, message })
 }
