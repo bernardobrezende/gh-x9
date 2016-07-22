@@ -1,1 +1,1 @@
-web: sh -c 'cd ./src/ && node github-crescer-server.js'
+web: sh -c 'cd ./src/ && node server.js'

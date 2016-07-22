@@ -26,5 +26,4 @@ CMD Window 1:
 * `$ gulp`
 
 CMD Window 2:
-* `$ cd src`  
-* `$ node github-crescer-server`  
+* `$ npm start`  
