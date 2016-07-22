@@ -27,14 +27,9 @@ exports.AuthController = class AuthController {
     this.github = new GitHub()
     this.router.get('/go-to-github', (req, res) => this.goToGitHub(req, res))
     this.router.get('/github/callback', (req, res) => this.githubCallback(req, res))
-    this.router.get('/', (req, res) => this.index(req, res))
   }
 
   // Actions
-  index(req, res) {
-    _sendView('./web/views/home.html', req, res)
-  }
-
   goToGitHub(req, res) {
     const url = `${configs.github.url_auth}?client_id=${configs.github.client_id}&redirect_uri=${configs.github.redirect_uri.full}&state${configs.github.state}`;
     res.redirect(url);
