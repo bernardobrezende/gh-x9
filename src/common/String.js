@@ -1,5 +1,7 @@
-'use strict';
+'use strict'
 
+// TO-DO: remover o uso do String.format quando aderirmos ES2015 no front.
+// Fonte: http://stackoverflow.com/a/4673436/5194966
 if (!String.format) {
 
   String.format = function(format) {
