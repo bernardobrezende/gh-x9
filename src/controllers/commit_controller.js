@@ -5,45 +5,45 @@ const GitHub            = require('../models/github').GitHub
   , ghx9rc              = require('../common/gh-x9rc')
   , StringExtensions    = require('../common/String')
   , express             = require('express')
+  , BaseController      = require('./base_controller').BaseController
 
-// TODO: extrair para controller (base)
-const _createErrorJSON = (error, require_login, code = 500, message) => {
-  return JSON.stringify({ error, require_login, code, message })
-}
-
-exports.CommitController = class CommitController {
+exports.CommitController = class CommitController extends BaseController {
   
   constructor() {
+    super()
     this.github = new GitHub()
     this.CRESCER_REPO_NAME = ghx9rc.main_repository || 'crescer-2016-1'
     this.router = express.Router()
     this.router.get('/', (req, res) => this.get(req, res))
+    this.LOGIN_ERROR_MESSAGE = 'Não autorizado.'
   }
 
   // Actions
   get(req, res) {
-    // TODO: criar método facade pra isso
-    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
     // TODO: extrair o nome deste cookie para constante
     var token = req.cookies['gh-x9-v2-auth'];
     if(!!token) {
       this.github.getUser(token).then(l => {
         if (ghx9rc.allowed_users.indexOf(l.login) === -1) {
-          return res.end(_createErrorJSON(true, true, 401, 'Efetue o login para continuar.'))
+          super.writeErrorForJson(res)
+          return res.end(super.createJSONError(true, this.LOGIN_ERROR_MESSAGE, 401))
         }
         this.github.authenticate(token)
         this.fetch()
           .then(r => {
-            res.end(JSON.stringify(r));
+            super.writeOkForJson(res)
+            res.end(JSON.stringify(r))
           })
           .catch(error => {
             console.error(error)
-            res.end(_createErrorJSON(true, error.code === 401, error.code, error.message))
+            super.writeErrorForJson(res)
+            res.end(super.createJSONError(error.code === 401, error.message, error.code))
           })
       })
     }
     else {
-      res.end(_createErrorJSON(true, true, 401, 'Efetue o login para continuar.'))
+      super.writeErrorForJson(res)
+      res.end(super.createJSONError(true, this.LOGIN_ERROR_MESSAGE, 401))
     }
   }
 

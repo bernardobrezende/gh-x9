@@ -1,28 +1,18 @@
 'use strict'
 
 const
-  express     = require('express')
-  , fs        = require('fs')
-  , configs   = require('../common/Configurations')
-  , ghx9rc    = require('../common/gh-x9rc')
-  , request   = require('request')
-  , GitHub    = require('../models/github').GitHub
+  express           = require('express')
+  , fs              = require('fs')
+  , configs         = require('../common/Configurations')
+  , ghx9rc          = require('../common/gh-x9rc')
+  , request         = require('request')
+  , GitHub          = require('../models/github').GitHub
+  , BaseController  = require('./base_controller').BaseController
 
-// TODO: jogar para uma classe helper (ou controller base)
-const _sendView = (req, res, viewName) => {
-  fs.readFile(viewName, function (err, html) {
-    if (err) {
-      throw err
-    }
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
-    res.write(html)
-    res.end()
-  })
-}
-
-exports.AuthController = class AuthController {
+exports.AuthController = class AuthController extends BaseController {
   
   constructor() {
+    super()
     this.router = express.Router()
     this.github = new GitHub()
     this.router.get('/go-to-github', (req, res) => this.goToGitHub(req, res))
@@ -46,7 +36,7 @@ exports.AuthController = class AuthController {
             res.end()
           } else {
             res.status(401)
-            _sendView(req, res, './web/views/401.html')
+            super.sendView(req, res, './web/views/401.html')
           }
         })
       })

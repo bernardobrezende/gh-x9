@@ -20,19 +20,12 @@ angular.module('GHX9', [])
 
       $http.get('/commit')
         .then(function(resp){
-          console.log(resp);
-          if(resp.data.error) {
-            $scope.error = resp.data;
-          }
-          else {
-            $scope.error = null;
-            $scope.repositories = resp.data;
-          }
-
+          $scope.error = null;
+          $scope.repositories = resp.data;
           $scope.lastUpdated = new Date();
           $scope.isRunning = false;
         }, function(err) {
-          $scope.error = err;
+          $scope.error = err.data;
         });
     }
   };
