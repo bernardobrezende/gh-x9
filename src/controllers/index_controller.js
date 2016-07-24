@@ -2,7 +2,6 @@
 
 const
   express           = require('express')
-  , fs              = require('fs')
   , BaseController  = require('./base_controller').BaseController
 
 exports.IndexController = class IndexController extends BaseController {

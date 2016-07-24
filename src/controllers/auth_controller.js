@@ -2,10 +2,8 @@
 
 const
   express           = require('express')
-  , fs              = require('fs')
   , configs         = require('../common/Configurations')
   , ghx9rc          = require('../common/gh-x9rc')
-  , request         = require('request')
   , GitHub          = require('../models/github').GitHub
   , BaseController  = require('./base_controller').BaseController
 
