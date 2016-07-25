@@ -5,7 +5,6 @@ const
   , fs        = require('fs')
   , configs   = require('../common/Configurations')
   , ghx9rc    = require('../common/gh-x9rc')
-  , request   = require('request')
   , GitHub    = require('../models/github').GitHub
 
 // TODO: jogar para uma classe helper (ou controller base)

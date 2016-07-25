@@ -3,8 +3,9 @@
 const GitHub            = require('../models/github').GitHub
   , date                = require('../common/Date')
   , ghx9rc              = require('../common/gh-x9rc')
-  , StringExtensions    = require('../common/String')
   , express             = require('express')
+
+require('../common/String')
 
 // TODO: extrair para controller (base)
 const _createErrorJSON = (error, require_login, code = 500, message) => {
@@ -53,11 +54,11 @@ exports.CommitController = class CommitController {
     function sortByPushedDate(forks) {
       forks.sort(function(a, b) {
         return new Date(b.pushed_at) - new Date(a.pushed_at);
-      });
-    };
+      })
+    }
 
     function buildCommitStats(commits) {
-      let stats = {
+      const stats = {
         feat: 0,
         fix: 0,
         refactor: 0,
@@ -76,7 +77,7 @@ exports.CommitController = class CommitController {
       stats.all = commits.length
 
       return stats
-    };
+    }
 
     function buildActivity(fork, commits) {
       var timestamp = date.difference(new Date(fork.pushed_at), new Date());
@@ -103,8 +104,8 @@ exports.CommitController = class CommitController {
             url: commits[2].html_url
           }
         ]
-      };
-    };
+      }
+    }
 
     return new Promise((resolve, reject) => {
       const self = this
@@ -119,7 +120,7 @@ exports.CommitController = class CommitController {
           return ghx9rc.ignore_users.join(',').indexOf(fork.owner.login) === -1 ? fork : undefined;
         })
         
-        let commitsRequests = res.map(f => self.github.getCommits(f.owner.login, self.CRESCER_REPO_NAME))
+        const commitsRequests = res.map(f => self.github.getCommits(f.owner.login, self.CRESCER_REPO_NAME))
 
         Promise.all(commitsRequests).then(values => {
           // res => array de todos os forks

@@ -2,7 +2,7 @@
 
 module.exports = {
   difference: (dateStart, dateEnd) => {
-    let diff = dateEnd - dateStart
+    const diff = dateEnd - dateStart
     , secs = Math.floor(diff / 1000)
     , mins = Math.floor(secs / 60)
     , hours = Math.floor(mins / 60)
