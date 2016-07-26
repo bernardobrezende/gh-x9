@@ -1,5 +1,7 @@
 ## GitHub X9 - Fork scouting
 
+[![Build Status](https://travis-ci.org/bernardobrezende/gh-x9.svg?branch=ci)](https://travis-ci.org/bernardobrezende/gh-x9)
+
 ### Install
 
 `$ npm install`  
