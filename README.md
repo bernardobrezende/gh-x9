@@ -29,3 +29,9 @@ CMD Window 1:
 
 CMD Window 2:
 * `$ npm start`  
+
+### Lint Code
+
+`$ gulp lint`
+
+To edit rules, open `.eslintrc.js` file and check [here](http://eslint.org/docs/rules/).

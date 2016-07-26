@@ -28,11 +28,12 @@ angular.module('GHX9', [])
           $scope.error = err.data;
         });
     }
-  };
+  }
 
 }])
 .filter('timestamp', function() {
   return function(pushedTimestamp) {
+    var lastCommit;
     if (pushedTimestamp.inDays > 1) {
       lastCommit = String.format("{0} dias atrás", pushedTimestamp.inDays);
     } else if (pushedTimestamp.inDays === 1 ) {
