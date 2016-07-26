@@ -1,5 +1,7 @@
 ## GitHub X9 - Fork scouting
 
+[![Build Status](https://travis-ci.org/bernardobrezende/gh-x9.svg?branch=ci)](https://travis-ci.org/bernardobrezende/gh-x9)
+
 ### Install
 
 `$ npm install`  
@@ -27,3 +29,9 @@ CMD Window 1:
 
 CMD Window 2:
 * `$ npm start`  
+
+### Lint Code
+
+`$ gulp lint`
+
+To edit rules, open `.eslintrc.js` file and check [here](http://eslint.org/docs/rules/).

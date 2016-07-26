@@ -13,7 +13,7 @@ const
 console.log('===== CONFIGURATIONS =====')
 console.log(configs)
 
-let appServer = express()
+const appServer = express()
 
 appServer.use(cookieParser())
 appServer.use(express.static('./web'))

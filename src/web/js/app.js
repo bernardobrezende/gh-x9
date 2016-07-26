@@ -20,26 +20,20 @@ angular.module('GHX9', [])
 
       $http.get('/commit')
         .then(function(resp){
-          console.log(resp);
-          if(resp.data.error) {
-            $scope.error = resp.data;
-          }
-          else {
-            $scope.error = null;
-            $scope.repositories = resp.data;
-          }
-
+          $scope.error = null;
+          $scope.repositories = resp.data;
           $scope.lastUpdated = new Date();
           $scope.isRunning = false;
         }, function(err) {
-          $scope.error = err;
+          $scope.error = err.data;
         });
     }
-  };
+  }
 
 }])
 .filter('timestamp', function() {
   return function(pushedTimestamp) {
+    var lastCommit;
     if (pushedTimestamp.inDays > 1) {
       lastCommit = String.format("{0} dias atrás", pushedTimestamp.inDays);
     } else if (pushedTimestamp.inDays === 1 ) {
