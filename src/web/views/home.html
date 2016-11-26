@@ -40,7 +40,7 @@
           </div>
           <div class="col-xs-12 col-sm-9 col-md-8 col-lg-7">
             <strong>Error!</strong><br />
-            <span class="error-desc">{{ error.message }}</span> <br />
+            <span class="error-desc">{{ ::error.message }}</span> <br />
             <a href="/auth/go-to-github" class="btn btn-default" ng-show="error.require_login">
               <i class="fa fa-github"></i> Efetuar login no Github
             </a>
@@ -57,7 +57,8 @@
               <div class="panel-heading">
                 <div class="row">
                   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-left">
-                    Timeline
+                    <button ng-disabled="hideDisabled" ng-click="hideAll($event); hideDisabled = true; showDisabled = false;">Esconder todos</button>
+                    <button ng-disabled="showDisabled" ng-click="showAll($event); hideDisabled = false; showDisabled = true;">Exibir todos</button>
                   </div>
                   <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                     <div class="loading text-center" ng-show="isRunning">
@@ -77,12 +78,10 @@
                   <th class="col-md-8 col-sm-7">Commits</th>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="rep in repositories" ng-class="{ 'danger': rep.warning }" class="animated bounceIn" >
+                  <tr ng-repeat="rep in repositories" ng-class="{ 'danger': rep.warning, 'reviewed': rep.reviewed === true }" class="animated bounceIn">
                     <td>
-                      <a target='_blank' href='{{ rep.url_fork }}'>
-                        <img ng-src="{{ rep.avatar_url }}" class="avatar"><br>
-                        {{ rep.user }}
-                      </a>
+                      <img ng-src="{{ rep.avatar_url }}" class="avatar" style="cursor: pointer;" ng-click="toggleReviewed(rep, $event)"><br>
+                      <a target='_blank' href='{{ rep.url_fork }}'>{{ ::rep.user }}</a>
                     </td>
                     <td>
                       {{ rep.pushed_timestamp | timestamp }}
@@ -122,6 +121,7 @@
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/ngstorage/ngstorage.min.js"></script>
     <script src="String.js"></script>
     <script src="js/app.js"></script>
 

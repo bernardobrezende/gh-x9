@@ -15,6 +15,7 @@ module.exports = {
     "module": true,
     "process": true,
     "exports": true,
+    "$": true,
   },
   "rules": {
     "prefer-const": [ "error" ],

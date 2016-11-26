@@ -3,11 +3,9 @@ $blue: #4682B4;
 $black: #2d3538;
 $light-green: #18bc9c;
 
-
 header {
   height: 120px;
   padding: 5px 20px;
-
 }
 
 #logo {
@@ -74,4 +72,8 @@ header {
   .error-desc {
     font-style: italic;
   }
+}
+
+.reviewed {
+  filter: blur(5px);
 }
