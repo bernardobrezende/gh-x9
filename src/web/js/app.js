@@ -36,7 +36,7 @@ angular.module('GHX9', [ 'ngStorage' ])
       reviewedStudents.push(rep.user);
     } else {
       // remover aluno da lista de revisados
-      reviewedStudents.splice(reviewedStudents.findIndex(function(e, i) {
+      reviewedStudents.splice(reviewedStudents.findIndex(function(e) {
         return e === rep.user;
       }), 1);
     }
@@ -56,7 +56,7 @@ angular.module('GHX9', [ 'ngStorage' ])
       $http.get('/commit')
         .then(function(resp){
           $scope.error = null;
-          $scope.repositories = resp.data.map(function(e, i) {
+          $scope.repositories = resp.data.map(function(e) {
             return e.reviewed = userHasBeenReviewed(e.user), e;
           });
           $scope.lastUpdated = new Date();
