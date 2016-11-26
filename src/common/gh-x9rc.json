@@ -1,5 +1,19 @@
 {
-  "ignore_users": [ ],
-  "allowed_users": [ ],
-  "main_repository": ""
+  "ignore_users": [
+    "bernardobrezende",
+    "fabriciorissetto",
+    "benhurott",
+    "nunes-andre",
+    "carlosreinheimer",
+    "nonnemacher"
+  ],
+  "allowed_users": [ 
+    "bernardobrezende",
+    "fabriciorissetto",
+    "benhurott",
+    "nunes-andre",
+    "nonnemacher",
+    "Marcoblos"
+  ],
+  "main_repository": "crescer-2016-2"
 }

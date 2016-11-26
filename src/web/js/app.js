@@ -1,6 +1,6 @@
-angular.module('GHX9', [])
+angular.module('GHX9', [ 'ngStorage' ])
 
-.controller('MainCtrl', ['$scope', '$interval', '$http', function($scope, $interval, $http){
+.controller('MainCtrl', ['$scope', '$interval', '$http', '$localStorage', function($scope, $interval, $http, $localStorage) {
 
   var TIME_REFRESH_INTERVAL = 60000;
 
@@ -14,14 +14,51 @@ angular.module('GHX9', [])
     $interval(pooling, TIME_REFRESH_INTERVAL);
   };
 
-  function pooling () {
+  $scope.showAll = function($event) {
+    $scope.repositories.forEach(function(rep) {
+      rep.reviewed = false;
+    })
+    $localStorage.reviewedStudents = [];
+    return $event.preventDefault();
+  }
+
+  $scope.hideAll = function($event) {
+    $localStorage.reviewedStudents = $scope.repositories.map(function(rep) {
+      return rep.reviewed = true, angular.copy(rep.user);
+    }) || [];
+    return $event.preventDefault();
+  };
+
+  $scope.toggleReviewed = function(rep, $event) {
+    var reviewedStudents = $localStorage.reviewedStudents || [];
+    rep.reviewed = !userHasBeenReviewed(rep.user);
+    if (rep.reviewed) {
+      reviewedStudents.push(rep.user);
+    } else {
+      // remover aluno da lista de revisados
+      reviewedStudents.splice(reviewedStudents.findIndex(function(e, i) {
+        return e === rep.user;
+      }), 1);
+    }
+    $localStorage.reviewedStudents = reviewedStudents;
+    return $event.preventDefault();
+  };
+
+  var userHasBeenReviewed = function(user) {
+    var reviewedStudents = $localStorage.reviewedStudents || [];
+    return $.inArray(user, reviewedStudents) > -1
+  }
+
+  var pooling = function() {
     if ($scope.isRunning === false) {
       $scope.isRunning = true;
-
+      
       $http.get('/commit')
         .then(function(resp){
           $scope.error = null;
-          $scope.repositories = resp.data;
+          $scope.repositories = resp.data.map(function(e, i) {
+            return e.reviewed = userHasBeenReviewed(e.user), e;
+          });
           $scope.lastUpdated = new Date();
           $scope.isRunning = false;
         }, function(err) {
