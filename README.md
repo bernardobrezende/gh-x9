@@ -4,6 +4,7 @@
 
 ### Install
 
+`$ npm install nodemon -g`
 `$ npm install`  
 `$ bower install`
 
@@ -28,7 +29,7 @@ CMD Window 1:
 * `$ gulp`
 
 CMD Window 2:
-* `$ npm start`  
+* `$ cd src && nodemon server.js`  
 
 ### Lint Code
 
