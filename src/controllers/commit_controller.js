@@ -9,10 +9,11 @@ const GitHub            = require('../models/github').GitHub
 require('../common/String')
 
 exports.CommitController = class CommitController extends BaseController {
-  
+
   constructor() {
     super()
     this.github = new GitHub()
+    this.github.api.debug = false
     this.CRESCER_REPO_NAME = ghx9rc.main_repository || 'crescer-2016-1'
     this.router = express.Router()
     this.router.get('/', (req, res) => this.get(req, res))
@@ -80,30 +81,34 @@ exports.CommitController = class CommitController extends BaseController {
     }
 
     function buildActivity(fork, commits) {
-      var timestamp = date.difference(new Date(fork.pushed_at), new Date());
+      try {
+        var timestamp = date.difference(new Date(fork.pushed_at), new Date());
 
-      return {
-        avatar_url: fork.owner.avatar_url,
-        url_fork: fork.html_url,
-        user: fork.owner.login,
-        warning: timestamp.inDays > 0,
-        pushed_date: new Date(fork.pushed_at),
-        pushed_timestamp: timestamp,
-        commits_stats: buildCommitStats(commits),
-        last_commits: [
-          {
-            message: commits[0].commit.message,
-            url: commits[0].html_url
-          },
-          {
-            message: commits[1].commit.message,
-            url: commits[1].html_url
-          },
-          {
-            message: commits[2].commit.message,
-            url: commits[2].html_url
-          }
-        ]
+        return {
+          avatar_url: fork.owner.avatar_url,
+          url_fork: fork.html_url,
+          user: fork.owner.login,
+          warning: timestamp.inDays > 0,
+          pushed_date: new Date(fork.pushed_at),
+          pushed_timestamp: timestamp,
+          commits_stats: buildCommitStats(commits),
+          last_commits: [
+            {
+              message: commits[0].commit.message,
+              url: commits[0].html_url
+            },
+            {
+              message: commits[1].commit.message,
+              url: commits[1].html_url
+            },
+            {
+              message: commits[2].commit.message,
+              url: commits[2].html_url
+            }
+          ]
+        }
+      } catch (err) {
+        console.error(err)
       }
     }
 
@@ -119,8 +124,8 @@ exports.CommitController = class CommitController extends BaseController {
         res = res.filter(function(fork) {
           return ghx9rc.ignore_users.join(',').indexOf(fork.owner.login) === -1 ? fork : undefined;
         })
-        
-        const commitsRequests = res.map(f => self.github.getCommits(f.owner.login, self.CRESCER_REPO_NAME))
+
+        const commitsRequests = res.map(f => self.github.getCommits(f.owner.login, f.name))
 
         Promise.all(commitsRequests).then(values => {
           // res => array de todos os forks

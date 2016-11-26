@@ -4,9 +4,9 @@
 
 ### Install
 
-`$ npm install nodemon -g`
-`$ npm install`  
-`$ bower install`
+* `$ npm install nodemon -g`
+* `$ npm install`  
+* `$ bower install`
 
 ### Configure
 1 - Register a new application on [github](https://github.com/settings/applications/new).
